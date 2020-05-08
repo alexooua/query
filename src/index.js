@@ -1,17 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import {getImages} from './service'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const imgNumber=document.querySelector("#img-number")
+const pageNumber = document.querySelector("#page-number")
+const clickMeButton = document.querySelector('#click-me')
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+clickMeButton.addEventListener(
+    'click',
+    ()=>{const promise = getImages(pageNumber,imgNumber)
+
+        promise.then(onDataReceived)
+    })
+
+function onDataReceived (arr) {
+
+    arr.forEach(el => {
+        const img = document.createElement('img')
+        img.src = el.thumbnail
+        document.querySelector('#result').appendChild(img)
+    })
+}
+
+
